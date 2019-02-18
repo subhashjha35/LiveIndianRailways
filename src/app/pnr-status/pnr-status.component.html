@@ -1,0 +1,142 @@
+<div class="card">
+  <div class="card-body text-center">
+    <app-banner></app-banner>
+  </div>
+</div>
+<div class="jumbotron pt-4 border pb-4 mb-1 mt-1 rounded-0" style="border-radius:0px;">
+  <form action="" method="post">
+    <div class="text-center">
+      <div class="small">Enter the 10 Digit PNR Number</div>
+        <input type="search" [ngModelOptions]="{standalone: true}" style ="width:200px; display:inline-block;" class="form-control rounded-0" [(ngModel)] = "pnr_txt" id="pnr_txt" placeholder="Enter Your PNR">
+        <button class="rounded-0 btn btn-info"(click)="get_pnr_data()">Submit</button>
+    </div>
+  </form>
+</div>
+<div class="alert alert-warning" [hidden]="(errorText==null)">
+  {{errorText}}
+</div>
+<div class="card" id="result_pnr" *ngIf="(pnr_data.pnr != null)">
+  <div class="card-body">
+    <table class="table table-bordered table-sm">
+      <tr class="text-center bg-info text-white"><td colspan=4>PNR Status : {{pnr_data.pnr}}</td></tr>
+      <tr>
+        <td>Train Name</td>
+        <td>{{pnr_data.train.name}}</td>
+        <td>Train Number</td>
+        <td>{{pnr_data.train.number}}</td>
+      </tr>
+      <tr>
+        <td>Class</td>
+        <td>{{pnr_data.journey_class.code}}</td>
+        <td>Travel Date</td>
+        <td>{{pnr_data.doj}}</td>
+      </tr>
+      <tr>
+        <td>From</td>
+        <td>{{pnr_data.from_station.name}} [{{pnr_data.from_station.code}}]</td>
+        <td>To</td>
+        <td>{{pnr_data.to_station.name}} [{{pnr_data.to_station.code}}]</td>
+      </tr>
+      <tr>
+        <td>Boarding Point</td>
+        <td>{{ pnr_data.boarding_point.name }} [{{ pnr_data.boarding_point.code }}]</td>
+        <td>Reserved Till</td>
+        <td>{{pnr_data.reservation_upto.name}} [{{pnr_data.reservation_upto.code}}]</td>
+      </tr>
+    </table>
+    <table class="table tabled-bordered table-sm">
+      <tr><td colspan="3">Passenger Nos : {{pnr_data.total_passengers}}</td></tr>
+      <tr>
+        <td>S No.</td>
+        <td>Booking Status</td>
+        <td>Current Status</td>
+      </tr>
+      <tr *ngFor="let pass of pnr_data.passengers">
+        <td>{{pass.no}}</td>
+        <td>{{pass.booking_status}}</td>
+        <td>{{pass.current_status}}</td>
+      </tr>
+      <tr class="bg-warning"><td colspan="3">Chart Prepared: {{pnr_data.chart_prepared}}</td></tr>
+    </table>
+  </div>
+</div>
+<div class="card">
+  <div class="card-body small">
+    <p>
+      <br /><span class="badge badge-info">Indian Railways PNR No 2354986668 Status Check</span><br /><br />
+      <i><b class="text-danger">How to check PNR status Online?</b></i><br />
+      You can check <b>IRCTC PNR Status</b> or the <b>Live PNR Status</b> of Indian Railways tickets here at <a class="link-url" [routerLink]="['pnr-status']"><b>here</b></a>.<br />
+      This is one of the fastest ways to get latest information and get your <b>ticket status</b> in real time.<br />
+      All you need to do is enter the PNR in box above to get the current status. You will find <b>PNR Number</b> on the top left corner of the ticket. <br />
+      PNR status can also be checked at every major stations, where PNR status checking counters are available.<br /><br />
+      <i><b class="text-danger">How to check PNR status through SMS?</b></i><br />
+      SMS Service : <b>SMS 'PNR <10 Digit-PNR>' to 139</b><br />
+      <i>Eg : </i><b>PNR 1234567890</b><br /><br />
+      <i><b class="text-danger">How to check PNR status through Phone?</b></i><br />
+      Railway Enquiry Number : <b>Call 139</b> <br /><br />
+      <i><b class="text-danger">PNR Status and Seat Availability</b></i><br />
+      The following codes are used by Indian Railways for reservation status. You need to understand them :<br />
+      <b>RAC</b> - In RAC (Reservation Against Cancellation), the passenger is allowed to travel and two passengers share the same berth. If a confirmed passenger does not board the train, a full berth is allotted to the passenger with RAC ticket.<br />
+      <b>CNF</b> - The passenger seat has been confirmed and the seat will be allotted after charting<br />
+      <b>CAN</b> - The passenger seat has been cancelled<br />
+      <b>WL</b> - The passenger with Waitlist ticket is in the waiting list and is not allowed to board the train. A waitlist ticket can be cancelled by the passenger 30 minutes before the departure of the train. If a WL ticket does not get confirmed, it gets cancelled automatically.<br />
+      <b>GNWL</b> - A General Waitlist ticket which gets confirmed after the passengers cancel their confirmed bookings.<br />
+      <b>TQWL</b> - TQWL stands for Tatkal Waitlist. When a passenger does a tatkal booking and is put on the wait list, the status is shown as TQWL. This ticket is least likely to get confirmed.<br />
+      <b>PQWL</b> - Under Pooled Quota Waitlist, passengers traveling between intermediate stations and have a separate waitlist from the general waitlist.<br />
+      <b>RLWL</b> - A Remote Location Waitlist has the high chances of confirmation. Smaller stations have separate quota of seats and waiting seats on these intermediate stations are given RLWL status.<br />
+      <b>RSWL</b> - A station specific waitlist is called a Road-Side Waitlist.<br />
+      <b>NR</b> - NR means 'No Room' and no further bookings are allowed with a NR ticket<br />
+      <b>NOSB</b> - NOSB is acronym for No Seat Berth. Children below 12 years of age pay child fare and are not allotted seats. Their PNR status shows NOSB - No Seat Berth.<br />
+      <b>REL</b> - REL stands for Released<br />
+      <b>WEBCAN</b> - It's a Railway Counter Ticket. When a passenger has been cancelled over internet and the refund has not been collected.<br />
+      <b>WEBCANRF</b> - It's a Railway Counter Ticket. When a passenger has been cancelled over internet and the refund has been collected.<br /><br />
+      <i><b class="text-danger"> Error. Please try later : Message / Status</b></i><br />
+      If the LIVE PNR Status for your queried PNR number is not delivered, the following reasons could be responsible:<br />
+      1 - You entered an incorrect or invalid PNR number.<br />
+      2 - Your Travel date is already in Past and PNR Number has been extinguished.<br />
+      3 - Indian Railways server is down or overloaded.<br /><br />
+      <i><b class="text-danger">What is the 10-digit PNR number and how it is generated?</b></i><br />
+      The Indian Railways passenger name record, also known as <b>PNR</b>, is a number that gives a complete travel information to ticket-holders. The <b>PNR status</b> includes information such as the <b>booking status</b> - whether the ticket has been confirmed, it is on waiting list (WL) or it is under reservation against cancellation (RAC) - apart from giving basic information on arrival and departure time of trains. The PNR status has details of the coach and seat number and the fare paid by the passenger, among other details. <br /><br />
+      <i><b class="text-danger">How PNR Works?</b></i><br />
+      The Centre of Railway Information Systems maintains information about passengers. Their system creates a 10-digit PNR status number every time a person buys an <b>Indian Railways ticket</b>.<br />
+      In case of group booking, a single PNR number can have a maximum of six passengers.<br /><br />
+      <i><b class="text-danger">What does PNR number include?</b></i><br />
+      <b>Passenger Detail</b> (Name, Age, Sex, Birth Preference)<br />
+      <b>Ticket Detail</b> (Train No, Travel Date, From, To, Boarding Station, Reservation Upto, Class, Berth, Quota)<br />
+      <b>Transaction / Payment Details</b> (Transaction ID, Payment Mode, Ticket Charge)<br />
+      The first 3 digits of the PNR tell us from which Passenger Reservation System or PRS the ticket has been booked.<br />
+      The last seven digits are randomly generated numbers. These numbers represent no information about the ticket or journey as such. They only provide an unique identity to the PNR number.<br /><br />
+      <i><b class="text-danger">Where is PNR number on ticket</b></i><br />
+      <b>PNR number</b> is usually printed at the top left corner of the tickets that are available at the railway station booking window. In case of the E - Ticket, the PNR number is mentioned at top in a separate cell.<br /><br />
+      <i><b class="text-danger">Waiting List and RAC</b></i><br />
+      Once all available seats on a train are sold, the Indian railway releases RACs for railway reservations. When all of the RAC seats are sold, Waiting List tickets are released. The status of the tickets might vary based on a variety of reasons. Ticket cancellations by other passengers can increase your chances if you have an RAC or Waiting List ticket. RAC/WL ticket holders are also likely to get available seats in different quotas if they remain unused.<br />
+      Tickets are sold by the Indian Railways in the following order:<br />
+      - Available 02<br />
+      - Available 01<br />
+      - RAC 01<br />
+      - RAC 02<br />
+      - RAC 03<br />
+      - RAC 04<br />
+      - WL 01<br />
+      - WL 02<br /><br />
+      <i><b class="text-danger">Understanding your ticket status</b></i><br />
+      There are two numbers mentioned on your ticket. The numbers detail the position at which you joined the waitlist and the current position of your ticket- in this order. Here is an example:<br />
+      When you book a train ticket online, you find the train number and class - AC, second class, third class etc mentioned on the e-ticket along with the seat/berth that you want along with the date and time. Let's consider that you buy a ticket with WL5/WL2.<br />
+      This means that you joined the WL at position 6, but by the time you paid for the ticket and actually bought the ticket online you moved to position 2. <br />
+      The position may have varied from WL6 to WL2 either due to a cancellation or due to someone not making a final booking. <br />
+      While The first number (WL5 in this case) will stay the same, the second number will decrease until you get a ticket.<br />
+      This is how the status of your reservation status could look like - in that order:<br />
+      - WL 6/WL 2<br />
+      - WL 6/WL 1<br />
+      - WL 6/RAC 3<br />
+      - WL 6/RAC 2<br />
+      - WL 6/RAC 1<br />
+      - WL 6/CNF<br /><br />
+      <i><b class="text-danger">PNR numbers validity Period</b></i><br />
+      Normally, the digits of Passanger name record or PNR become meaningless after the completion of the journey. The PNR details may not be available to the public once the journey gets completed for privacy and security concerns of passengers.<br /><br />
+      For More information & queries about this, please check <a class="link-url" href="//indianrailways.info/faq/"><b>Indian Railways FAQ</b></a><br />
+      </p>
+  </div>
+</div>
+<div class="about-content p-2">
+</div>

@@ -1,0 +1,18 @@
+<div [ngStyle]="(screenWidth>=992)?{'height':screenHeight+'px'}:null">
+  <nav class="navbar navbar-toggleable-md navbar-dark" style="padding:0px auto !important;">
+    <a href="#" class="navbar-brand text-center" style="margin-right:0px;">
+      <img src="../../assets/train.png" class="img-fluid bg-white rounded" [ngStyle] = "(screenWidth < 992) ? {'max-height':'25px'}:null"><br *ngIf="(screenWidth >= 992)"><span class="small">LiveIndianRailways.com</span>
+    </a>
+    <button class="navbar-toggler navbar-toggler-left" [hidden]="(screenWidth >= 992)" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="col-12 {{(screenWidth < 992)?'collapse navbar-collapse':null}}" id="navbarNav">
+      <hr class="row mt-1 mb-1 p-0" style="border:1px solid rgba(40, 40, 40, 0.548)">
+      <ul class="navbar-nav">
+        <li class="nav-item" *ngFor="let list of menuList">
+          <a routerLink='{{list.path}}' class="nav-link">{{list.title}}</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>

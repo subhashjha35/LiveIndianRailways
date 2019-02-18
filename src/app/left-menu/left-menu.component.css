@@ -1,0 +1,31 @@
+.list-group-item {
+  padding: 3px 10px;
+  background-color:transparent !important;
+}
+.sidebar {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.sidebar .nav {
+  margin-bottom: 20px;
+}
+.sidebar .bg-dark a{
+  color:#eee;
+  transition: 0.3s all ease-out;
+}
+.sidebar .bg-dark a:hover{
+  color:#568cd8;
+  /* background:rgba(0, 0, 0, 0.616); */
+}
+.sidebar .nav-item {
+  width: 100%;
+}
+
+.sidebar .nav-item + .nav-item {
+  margin-left: 0;
+}
+
+.sidebar .nav-link {
+  border-radius: 0;
+}

@@ -1,0 +1,78 @@
+<div class="card">
+  <div class="card-body">
+    <app-banner></app-banner>
+  </div>
+</div>
+<div class="jumbotron pt-4 border pb-4 mb-1 mt-1 rounded-0">
+  <form action="" class="text-center">
+      <div class="small">Enter the Train No. to find its route</div>
+    <input name="train_num" type="text" class="form-control rounded-0" style ="width:200px; display:inline-block;" [(ngModel)]="train_num">
+    <button type="button" class="rounded-0 btn btn-info" (click)="getTrainRouteData()">Search Train</button>
+  </form>
+</div>
+<div class="alert alert-warning" [hidden]="(errorText==null)">
+  {{errorText}}
+</div>
+<div id="result" *ngIf="(route_data.route != null)">
+  <table class="table table-sm table-bordered small">
+      <tr class="text-center alert-info font-weight-bold"><td colspan="6">Train Details : {{ route_data.train.name }} ({{ route_data.train.number }})</td></tr>
+      <tr>
+          <td>Station Name [Code]</td>
+          <td>Scheduled Arrival</td>
+          <td>Scheduled Departure</td>
+          <td>Distance</td>
+          <td>Halt</td>
+          <td>Day</td>
+      </tr>
+      <tbody id="route_data">
+        <tr *ngFor="let data of route_data.route">
+          <td><strong>{{ data.station.name }} [{{ data.station.code }}]</strong></td>
+          <td>{{ data.scharr }}</td>
+          <td>{{ data.schdep }}</td>
+          <td>{{ data.distance }}</td>
+          <td>{{ data.halt }}</td>
+          <td>{{ data.day }}</td>
+        </tr>
+      </tbody>
+  </table>
+
+  <div class="col-md-12">
+      <div class="row" id="class_avail_box">
+          <div class="col-sm-4 alert-info">Train Class Available</div>
+          <div *ngFor="let class of route_data.train.classes" class="col-sm-1 {{ (class.available=='Y')?'alert-success':'alert-danger' }}">{{class.code}}</div>
+      </div>
+  </div>
+
+  <table class="table table-bordered table-sm mt-2">
+      <tr class="col-sm-4 alert-info"><td colspan="7">Train Running Days</td></tr>
+      <tr>
+          <td>Mon</td>
+          <td>Tue</td>
+          <td>Wed</td>
+          <td>Thu</td>
+          <td>Fri</td>
+          <td>Sat</td>
+          <td>Sun</td>
+      </tr>
+      <tr>
+        <td *ngFor="let day of route_data.train.days">
+          <div class="text-center {{(day.runs=='Y')?'text-success':'text-danger'}}">{{day.runs}}</div>
+        </td>
+      </tr>
+  </table>
+</div>
+
+<div class="card">
+  <div class="card-body small">
+    <p>Indian Railways publish train time table with the name Trains at a Glance. But with the advent of online technologies, this has now become redundant. Now all the information regarding Train Time Table are on your fingertips and easily available. You can find the schedule of all Trains here.</p>
+
+    <b>How to Check Train Time Table</b><br>
+    <p>By using this website, you can check Train Schedule & Arrival and Departure of Trains in 3 easy steps</p>
+    <ul>
+      <li>Go to the Input Box on top below ‘Train Time Table‘</li>
+      <li>In the Input box, enter Train Number or select from dropdown list.</li>
+      <li>Click on Submit Button.</li>
+      <li>Here will be displayed Train Time Table based on your information</li>
+    </ul>
+  </div>
+</div>

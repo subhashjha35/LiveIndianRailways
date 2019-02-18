@@ -1,0 +1,162 @@
+<div class="card">
+  <div class="card-body">
+    <app-banner></app-banner>
+  </div>
+</div>
+Live Train Status Page <br>
+<hr>
+<div class="jumbotron pt-4 border pb-4 mb-1 mt-1 rounded-0" style="border-radius:0px;">
+  <form action="">
+      <div class="form-group">
+          <label for="train_no">Enter Train Number</label>
+          <input type="number" min="10000" max="99999" class="form-control"name="train_no" [(ngModel)]="train_no">
+      </div>
+        <div class="form-group">
+            <label for="train_no">Enter Station</label>
+            <!-- {{stn_name}} -->
+            <!-- <input [(ngModel)]="stn_name" type="text" class="form-control" name="station_name" (keyup)="getStation()">
+            <select name="stn_code" id="">
+                <option value="{{item.code}}" *ngFor="let item of stn_list">{{item.name}}</option>
+            </select>
+            <ngx-select [items]="stn_list"
+                (typed)="getStation($event)"
+                placeholder="Select Station"
+                (select)="stationSelected($event)"
+                name="stationCode"
+                [(ngModel)]="stn_name">
+            </ngx-select>
+            {{stn_name}} -->
+            <input (change)="displaySelected($event)" class="form-control" [ngModelOptions]="{standalone: true}" type="text" (keyup)="getStation($event)" [(ngModel)]="stn_id" list="options">
+            <datalist id="options" *ngIf="stn_list">
+                <option *ngFor="let item of stn_list" value="{{item.code}}">{{item.name}}</option>
+            </datalist>
+        </div>
+
+      <div class="form-group">
+          <label for="doj">Date Of Journey</label>
+          <input type="date" class="form-control"name="doj" [(ngModel)]="doj">
+      </div>
+      <div class="form-group">
+          <button class="btn btn-success" type="button" (click)="search_avail()">Search Now</button>
+      </div>
+  </form>
+</div>
+<div class="alert alert-warning" [hidden]="(errorText==null)">
+  {{errorText}}
+</div>
+<div id="result" *ngIf="(live_data.position != null)">
+    <hr>
+    <div class="alert-success text-center">Train Info: {{live_data.train.name}} - {{live_data.train.number}}</div>
+    <div class="text-center">Current Position: {{live_data.position}}</div>
+    <table class="table table-sm table-bordered small" id="trs_table">
+        <tr>
+            <th>Station Name [Code]</th>
+            <th>Date</th>
+            <th>Schedule Arrival</th>
+            <th>Act Arrival</th>
+            <th>Arrived?</th>
+            <th>Schedule Departure</th>
+            <th>Act Departure</th>
+            <th>Departed?</th>
+            <th>Delay/Early</th>
+        </tr>
+        <tbody id="trs_data">
+            <tr><!-- <td class="font-weight-bold">{{data.station.name}} [{{data.station.code}}]</td> -->   
+                <td class="font-weight-bold">{{live_data.station.name}} [{{live_data.station.code}}]</td>
+                <td>{{live_data.start_date}}</td>
+                <td>{{live_data.status.scharr}}</td>
+                <td>{{live_data.status.actarr}}</td>
+                <td>{{live_data.status.has_arrived}}</td>
+                <td>{{live_data.status.schdep}}</td>
+                <td>{{live_data.status.actdep}}</td>
+                <td><span class="{{(live_data.status.has_departed==true)?'text-success':'text-danger'}}">{{(live_data.status.has_departed==true)?'Yes':'No'}}</span></td>
+                <td>{{live_data.status.latemin}}{{(live_data.status.latemin==null)?'Null':''}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <hr>
+    <table class="table table-sm table-bordered small" id="trd_table">
+        <tr>
+            <td>Mon</td>
+            <td>Tue</td>
+            <td>Wed</td>
+            <td>Thu</td>
+            <td>Fri</td>
+            <td>Sat</td>
+            <td>Sun</td>
+        </tr>
+        <tr>
+          <td *ngFor="let days of live_data.train.days" class="text-center"><span class="{{(days.runs=='Y')?'text-success':'text-danger'}}">{{days.runs}}</span></td>
+        </tr>
+    </table>
+</div>
+<div class="card small">
+  <div class="card-body">
+    Live train running status for Indian railway trains means the exact location of any train and its real time delay status. It may also include the estimated arrival of the train at any particular station en-route.
+
+The two key things which are important to be noted while checking Live Train Status are "Last Reported Location" and "Estimated Time of Arrival (ETA) at upcoming stoppages"
+
+The "Last Reported Station" signifies the station based on which the current live train running status is determined. The "Last Reported Station" also conveys that the train has either arrived or departed or crossed that particular station.
+
+The "Estimated Time of Arrival (ETA)" value conveys the expected time at which the trains is supposed to arrive at any of its upcoming stoppages. This is the time when the traveler at the upcoming is expected to be there to board the train.
+
+The last reported station can be either a stoppage or an intermediate station (where the train does not have a regular stoppage and simply is expected to cross the station)
+
+According to RailYatri, 90% of the live train status updates of the train from a particular station arrives with 8-10 mins of the train arriving/departing/crossing a station. For the remaining 10% of live train updates can range more than take more than that at times reaching to nearly an hour.
+
+Trains do recover time. So the train delay at the upcoming stoppages may be less than what has been reported from last reported station. Please plan accordingly.
+
+Train running status updates are much more accurate when it arrives from the GPS of the RailYatri app users.
+
+Train status updates from the last stop typically arrive in a delayed fashion.
+
+Status running train updates change frequently. So it is recommended that the user check the status updates frequently. Nearer to the estimated time of arrival, the train running status information becomes more and more accurate.
+
+The two key things which are important to be noted while checking Live Train Status are "Last Reported Location" and "Estimated Time of Arrival (ETA)" at upcoming stoppages.
+
+Train status on mobile can be checked through modern day Internet powered mobile devices. It can be checked on the go, and conveys exact location of a train and its delay status.
+  </div>
+  <div class="about-content p-2">
+    <i><b class="text-danger">How to check Train Running Status Online?</b></i><br />
+You can check <b>IRCTC Train Status</b> or the <b>Live Train Status</b> of any Indian Railways Train here at <a class="link-url" href="https://indianrailways.info/train_running_status/"><b>https://indianrailways.info/train_running_status/</b></a>.<br />
+This is one of the fastest ways to get latest information and <b>spot your train</b> in real time.<br />
+All you need to do is enter the Train Number or Train Name in box above and select the train start date to get the current location of the train. You can find Train Name or number by just entering first 3 letters / digits and it will show you a list from which you can select the train. <br />
+<b>Train Running Status</b> can also be checked at every stations where enquiry counters are available for this purpose.<br /><br />
+<i><b class="text-danger">How to check Train status through SMS?</b></i><br />
+SMS Service : <b>SMS 'AD &lt;Train Number&gt; &lt;Station STD Code&gt;' to 139</b><br />
+<i>Eg : </i><b>AD 12002 0755</b><br /><br />
+<i><b class="text-danger">How to check Train status through Phone?</b></i><br />
+Railway Enquiry Number : <b>Call 139</b> <br /><br />
+<i><b class="text-danger">Live Train Status Explanation</b></i><br />
+<b>S.No</b>: Serial No's of Stations where the train stops.<br />
+<b>Station Name & Code</b>: Name & Station Code of Stations where the train stops.<br />
+<b>Actual Arrival Time</b>: Train Arrival Time when it actually arrived at that station.<br />
+<b>Actual Departure Time</b>: Train Departure Time when it actually arrived at that station.<br />
+<b>Late / Early</b>: Wthether the train is on time or delayed and by how much time.<br />
+<b>Current Position</b>: Arrived / Departed / Estimated as the case maybe.<br />
+<b>Scheduled Arrival Time</b>: Time when train was originally scheduled to arrive at that station.<br />
+<b>Scheduled Departure Time</b>: Time when train was originally scheduled to depart from that station.<br />
+<b>Halt Time</b>: Stoppage time at that station.<br />
+<b>Platform Number</b>: The platform number where the train actually or is scheduled to stop<br />
+<b>Enroute Day</b>: Number of Day of train travel.<br />
+<b>Distance</b>: Distance covered from Origin Station<br /><br />
+<i><b class="text-danger"> Error. Please try later : Message / Status</b></i><br />
+If the LIVE train running status for your queried train number is not delivered, the following reasons could be responsible:<br />
+1 - You entered an incorrect or invalid train number.<br />
+2 - Train does not run on the date it is being queried.<br />
+3 - Indian Railways server is down or overloaded.<br /><br />
+<i><b class="text-danger">Train on Map</b></i><br />
+One can track the exact position of the train by locating it on the map. By clicking on the indicated points on the map, one can see the name of the station, the arrival and departure time, the travel day number on which the train is running and distance from the source station.<br /><br />
+<i><b class="text-danger">Example Of Train Status:</b></i><br />
+If you are travelling from Bhopal to Delhi via train no 12001 - NDLS SHATABDI Express (HBJ - NDLS), just type the train number 12001 or NDLS SHATABDI in box 1. After this, select the date of travel and then click on 'Submit'.<br />
+The information that the train is on one of the route stations - HABIBGANJ(HBJ), BHOPAL JN(BPL), JHANSI JN(JHS), GWALIOR(GWL), AGRA CANTT(AGC), MATHURA JN(MTJ) or NEW DELHI(NDLS)will come up. <br />
+It will also tell you the Expected Time of Arrival (eg 16:35 at Bhopal) and Expected Time of Departure (eg 16:39 at Bhopal) along with the halt time of 4 Min. The late status can also be checked -whether a train is on 'On Time' or 'Late' will be indicated against the station.<br />
+Ddistance between the stations will also be shown and you can know exactly that JHANSI JN(JHS) is how many km away from Bhopal.<br />
+You will also be able to find the platform number on which the train will arrive and thus will not have to rush to coolies or other passengers for help. Eg: Bhopal Station at Platform 2 and New Delhi at Platform 1. Platform numbers will thus be indicated against each station.<br />
+Along with this, a route map will also help you trace the trajectory of your travel and you will have a clear idea on what route the train is heading. This map can also help in finding the places around a particular station and what areas you are crossing. <br /><br />
+<i><b class="text-danger">How is Train Status Tracked?</b></i><br />
+The latest train status is reflected via an accurate GPS tracker and navigation system that provides accurate real time data for the travellers.<br />
+The Global Positioning System (GPS) is a a global navigation satellite system that provides geo-location and time information to a GPS receiver anywhere on or near the Earth. The GPS operates independently of any telephonic or internet reception and does not require the user to transmit any data.<br /><br />
+For More information & queries about this, please check <a class="link-url" [routerLink]="['faq']"><b>Indian Railways FAQ</b></a><br />
+</div>
+</div>
