@@ -35,12 +35,16 @@ export class CommonService {
     return this.http.get('https://api.railwayapi.com/v2/route/train/' + train_no + '/apikey/' + this.api_key + '/');
   };
 
-  getLiveTrainStatus = function(train_no: String, stn_id:String, date: Date) {
+  getLiveTrainStatus = function(train_no: String, stn_id: String, date: Date) {
+    const url = 'https://api.railwayapi.com/v2/live/train/' + train_no
+      + '/station/' + stn_id
+      + '/date/' + date +
+      '/apikey/' + this.api_key + '/';
     // https://api.railwayapi.com/v2/live/train/<train-number>/station/<station-code>/date/<dd-mm-yyyy>/apikey/<apikey>/
-    return this.http.get('https://api.railwayapi.com/v2/live/train/' + train_no +'/station/'+ stn_id +'/date/' + date + '/apikey/' + this.api_key + '/');
+    return this.http.get(url);
   };
 
-  getStationName = function(str: String){
-    return this.http.get('https://api.railwayapi.com/v2/suggest-station/name/'+str+'/apikey/'+this.api_key+'/');
-  }
+  getStationName = function(str: String) {
+    return this.http.get('https://api.railwayapi.com/v2/suggest-station/name/' + str + '/apikey/' + this.api_key + '/');
+  };
 }

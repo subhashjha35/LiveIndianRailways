@@ -126,5 +126,8 @@
       }
     }
   },
-  "defaultProject": "ngrail"
+  "defaultProject": "ngrail",
+  "cli": {
+    "analytics": false
+  }
 }
