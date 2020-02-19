@@ -16,6 +16,8 @@ import { LiveTrainStatusComponent } from './live-train-status/live-train-status.
 import { BannerComponent } from './banner/banner.component';
 import { HostListener } from '@angular/core';
 import { TopMenuComponent } from './top-menu/top-menu.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 const appRoutes: Routes = [
   { path: 'pnr-status', component: PnrStatusComponent },
@@ -52,7 +54,8 @@ const appRoutes: Routes = [
       appRoutes
     ),
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [HostListener],
   bootstrap: [AppComponent]
