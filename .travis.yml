@@ -11,9 +11,10 @@ cache:
 
 install:
   - npm install
+  - npm audit fix
 
 script:
-  - npm run-script build
+  - npm build --prod --base-href="LiveIndianRailways/"
 
 deploy:
   provider: pages

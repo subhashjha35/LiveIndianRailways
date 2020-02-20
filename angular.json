@@ -21,7 +21,8 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/manifest.webmanifest"
+              "src/manifest.webmanifest",
+              "src/.htaccess"
             ],
             "styles": [
               "src/styles.css",
@@ -49,8 +50,7 @@
               "vendorChunk": false,
               "buildOptimizer": true,
               "serviceWorker": true,
-              "ngswConfigPath": "ngsw-config.json",
-              "baseHref": "https://subhashjha35.github.io/LiveIndianRailways/"
+              "ngswConfigPath": "ngsw-config.json"
             }
           }
         },
